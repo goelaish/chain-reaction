@@ -74,11 +74,11 @@ function drawArena()
 	if(turnCount % numPl == 0)
 		gameArena.strokeStyle = "red", turnIndicator.style.color = "red", turnIndicator.innerHTML = "Player 1 turn";
 	else if(turnCount % numPl == 1)
-		gameArena.strokeStyle = "blue", turnIndicator.style.color = "red", turnIndicator.innerHTML = "Player 2 turn";
+		gameArena.strokeStyle = "blue", turnIndicator.style.color = "blue", turnIndicator.innerHTML = "Player 2 turn";
 	else if(turnCount % numPl == 2)
-		gameArena.strokeStyle = "cyan", turnIndicator.style.color = "red", turnIndicator.innerHTML = "Player 3 turn";
+		gameArena.strokeStyle = "cyan", turnIndicator.style.color = "cyan", turnIndicator.innerHTML = "Player 3 turn";
 	else if(turnCount % numPl == 3)
-		gameArena.strokeStyle = "gold", turnIndicator.style.color = "red", turnIndicator.innerHTML = "Player 4 turn";
+		gameArena.strokeStyle = "gold", turnIndicator.style.color = "gold", turnIndicator.innerHTML = "Player 4 turn";
 	else
 		gameArena.strokeStyle = "green", turnIndicator.style.color = "green", turnIndicator.innerHTML = "Player 5 turn";
 
