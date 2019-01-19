@@ -21,8 +21,14 @@ var turnIndicator = document.getElementById("turnIndicator");
 canvas.addEventListener("click", gameLoop);
 button.addEventListener("click", undoGame);
 
+var numPl = prompt("Please enter no.of players", 2);
+while(numPl>5){
+	prompt("Player limit exceeded. Max players allowed is 5");
+	numPl=prompt("Please enter no.of players", 2);
+}
 initialiseMatrix();
 initialise();
+
 
 function initialise()
 {
@@ -64,11 +70,17 @@ function matrixDefault()
 function drawArena()
 {
 	gameArena.clearRect(0, 0, width, height);
-	
-	if(turnCount % 2 == 0)
+
+	if(turnCount % numPl == 0)
 		gameArena.strokeStyle = "red", turnIndicator.style.color = "red", turnIndicator.innerHTML = "Player 1 turn";
+	else if(turnCount % numPl == 1)
+		gameArena.strokeStyle = "blue", turnIndicator.style.color = "red", turnIndicator.innerHTML = "Player 2 turn";
+	else if(turnCount % numPl == 2)
+		gameArena.strokeStyle = "cyan", turnIndicator.style.color = "red", turnIndicator.innerHTML = "Player 3 turn";
+	else if(turnCount % numPl == 3)
+		gameArena.strokeStyle = "gold", turnIndicator.style.color = "red", turnIndicator.innerHTML = "Player 4 turn";
 	else
-		gameArena.strokeStyle = "green", turnIndicator.style.color = "green", turnIndicator.innerHTML = "Player 2 turn";
+		gameArena.strokeStyle = "green", turnIndicator.style.color = "green", turnIndicator.innerHTML = "Player 5 turn";
 
 	for(var counter = 1; counter < 6; counter++)
 	{
@@ -118,7 +130,7 @@ function undoGame()
 				colorMatrix[i][j] = undoColor[i][j];
 			}
 		}
-		
+
 	} else {
 		 $('.undoMessage').stop().fadeIn(400).delay(2000).fadeOut(400); //fade out after 2 seconds
 	}
@@ -149,14 +161,35 @@ function gameLoop(event)
 	if(!isGameOver)
 	{
 		takeBackUp();
-		if(turnCount%2 == 0 && (colorMatrix[column][row] == "" || colorMatrix[column][row] == "red"))
+		if(turnCount%numPl == 0 && (colorMatrix[column][row] == "" || colorMatrix[column][row] == "red"))
 		{
 			countMatrix[column][row]++;		//Weird graphic coordinate-system
 			colorMatrix[column][row] = "red";
 			turnCount++;
 			flag = false;
 		}
-		if(turnCount%2 == 1 && (colorMatrix[column][row] == "" || colorMatrix[column][row] == "green"))
+		if(turnCount%numPl == 1 && (colorMatrix[column][row] == "" || colorMatrix[column][row] == "blue"))
+		{
+			countMatrix[column][row]++;		//Weird graphic coordinate-system
+			colorMatrix[column][row] = "blue";
+			turnCount++;
+			flag = false;
+		}
+		if(turnCount%numPl == 2 && (colorMatrix[column][row] == "" || colorMatrix[column][row] == "cyan"))
+		{
+			countMatrix[column][row]++;		//Weird graphic coordinate-system
+			colorMatrix[column][row] = "cyan";
+			turnCount++;
+			flag = false;
+		}
+		if(turnCount%numPl == 3 && (colorMatrix[column][row] == "" || colorMatrix[column][row] == "gold"))
+		{
+			countMatrix[column][row]++;		//Weird graphic coordinate-system
+			colorMatrix[column][row] = "gold";
+			turnCount++;
+			flag = false;
+		}
+		if(turnCount%numPl == 4 && (colorMatrix[column][row] == "" || colorMatrix[column][row] == "green"))
 		{
 			countMatrix[column][row]++;		//Weird graphic coordinate-system
 			colorMatrix[column][row] = "green";
@@ -249,7 +282,7 @@ function updateMatrix()
 
 function checkGameOver()
 {
-	if(gameOver() == 1 || gameOver() == 2)
+	if(gameOver() == 1 || gameOver() == 2||gameOver() == 3 || gameOver() == 4||gameOver() == 5)
 	{
 		isGameOver = true;
 		document.getElementById("undo").style.visibility = "hidden";
@@ -289,21 +322,44 @@ function gameOver()
 {
 	var countRed = 0;
 	var countGreen = 0;
+	var countBlue = 0;
+	var countCyan = 0;
+	var countGold = 0;
+	var countTotal = 0;
+
 	for(var i = 0; i < 9; i++)
 	{
 		for(var j = 0;j < 6; j++)
 		{
-			if(colorMatrix[i][j] == "red") countRed++;
-			if(colorMatrix[i][j] == "green") countGreen++;
+			if(colorMatrix[i][j] == "red") {countRed++;countTotal++;}
+			if(colorMatrix[i][j] == "green") {countGreen++;countTotal++;}
+			if(colorMatrix[i][j] == "blue"){ countBlue++;countTotal++;}
+			if(colorMatrix[i][j] == "cyan") {countCyan++;countTotal++;}
+			if(colorMatrix[i][j] == "gold") {countGold++;countTotal++;}
 		}
 	}
 	if(turnCount > 1)
 	{
-		if(countRed == 0)
+		if(countRed == countTotal)
+		{
+			return 1;
+		}
+		if(countBlue == countTotal)
 		{
 			return 2;
+		}if(countCyan == countTotal)
+		{
+			return 3;
 		}
-		if(countGreen == 0)
+		if(countGold == countTotal)
+		{
+			return 4;
+		}
+		if(countGreen == countTotal)
+		{
+			return 5;
+		}
+		if(countBlue == countTotal)
 		{
 			return 1;
 		}
