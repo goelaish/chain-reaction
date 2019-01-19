@@ -70,7 +70,7 @@ function matrixDefault()
 function drawArena()
 {
 	gameArena.clearRect(0, 0, width, height);
-
+//heelo
 	if(turnCount % numPl == 0)
 		gameArena.strokeStyle = "red", turnIndicator.style.color = "red", turnIndicator.innerHTML = "Player 1 turn";
 	else if(turnCount % numPl == 1)
